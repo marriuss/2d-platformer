@@ -15,24 +15,6 @@ public class Enemy : MonoBehaviour
     private bool _isPatrolling;
     private Movement _movement;
 
-    private IEnumerator GetStunned()
-    {
-        _isPatrolling = false;
-        _movement.StopMovement();
-        gameObject.layer = _backgroundEnemyLayer;
-
-        yield return new WaitForSeconds(StanSeconds);
-
-        gameObject.layer = _enemyLayer;
-        _isPatrolling = true;
-    }
-
-    private void Patrol()
-    {
-        _movement.Move(_direction * _patrolingRadius);
-        _direction *= -1;
-    }
-
     private void Awake()
     {
         _movement = GetComponent<Movement>();
@@ -62,5 +44,23 @@ public class Enemy : MonoBehaviour
     {
         if (_patrolingRadius < MinPatrolingRadius)
             _patrolingRadius = MinPatrolingRadius;
+    }
+
+    private IEnumerator GetStunned()
+    {
+        _isPatrolling = false;
+        _movement.StopMovement();
+        gameObject.layer = _backgroundEnemyLayer;
+
+        yield return new WaitForSeconds(StanSeconds);
+
+        gameObject.layer = _enemyLayer;
+        _isPatrolling = true;
+    }
+
+    private void Patrol()
+    {
+        _movement.Move(_direction * _patrolingRadius);
+        _direction *= -1;
     }
 }

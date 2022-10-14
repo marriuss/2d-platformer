@@ -5,6 +5,11 @@ public class AnimationsSetter : MonoBehaviour
 {
     private Animator _animator;
 
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
     public void SetBoolParameterTrue(string parameterName)
     {
         _animator.SetBool(parameterName, true);
@@ -18,10 +23,5 @@ public class AnimationsSetter : MonoBehaviour
     public void SetTriggerParameter(string parameterName)
     {
         _animator.SetTrigger(parameterName);
-    }
-
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
     }
 }

@@ -13,10 +13,6 @@ public class Player : MonoBehaviour
     private Movement _movement;
     private bool _hasControl;
 
-    private void TurnOnControl() => _hasControl = true;
-    
-    private void TurnOffControl() => _hasControl = false;
-
     private void Awake()
     {
         _movement = GetComponent<Movement>();
@@ -51,4 +47,9 @@ public class Player : MonoBehaviour
         if (_jumpKey == KeyCode.None)
             _jumpKey = DefaultJumpKey;
     }
+
+    private void TurnOnControl() => _hasControl = true;
+
+    private void TurnOffControl() => _hasControl = false;
+
 }

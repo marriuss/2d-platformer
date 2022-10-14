@@ -27,6 +27,36 @@ public class Movement : MonoBehaviour
 
     public bool IsMovingHorizontally => _velocity.x != 0;
 
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        _contactFilter.useTriggers = false;
+        _contactFilter.useLayerMask = true;
+        _contactFilter.SetLayerMask(LayerMask.GetMask("Default"));
+        _velocity = Vector2.zero;
+        _isGrounded = true;
+    }
+
+    private void FixedUpdate()
+    {
+        float deltaTime = Time.deltaTime;
+        _velocity.y += Physics2D.gravity.y * deltaTime;
+        MoveRigidbody(_velocity.y * deltaTime * Vector2.up);
+    }
+
+    private void OnValidate()
+    {
+        if (_speed < MinSpeed)
+            _speed = MinSpeed;
+
+        if (_jumpHeight < MinJumpHeight)
+            _jumpHeight = MinJumpHeight;
+    }
+
     public void Move(float distance)
     {
         StopMovement();
@@ -110,35 +140,5 @@ public class Movement : MonoBehaviour
 
         _rigidbody.position += movement.normalized * distance;
         return distance;
-    }
-
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody2D>();
-    }
-
-    private void Start()
-    {
-        _contactFilter.useTriggers = false;
-        _contactFilter.useLayerMask = true;
-        _contactFilter.SetLayerMask(LayerMask.GetMask("Default"));
-        _velocity = Vector2.zero;
-        _isGrounded = true;
-    }
-
-    private void FixedUpdate()
-    {
-        float deltaTime = Time.deltaTime;
-        _velocity.y += Physics2D.gravity.y * deltaTime;
-        MoveRigidbody(_velocity.y * deltaTime * Vector2.up);
-    }
-
-    private void OnValidate()
-    {
-        if (_speed < MinSpeed)
-            _speed = MinSpeed;
-
-        if (_jumpHeight < MinJumpHeight)
-            _jumpHeight = MinJumpHeight;
     }
 }
